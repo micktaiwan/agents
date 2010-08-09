@@ -14,22 +14,22 @@ end
 
 class MoveNorthAction < Action
   def initialize
-    super(Action::MOVE, MVector.new(0.001,0,0))
+    super(Action::MOVE, MVector.new(0.01,0,0))
   end
 end
 class MoveSouthAction < Action
   def initialize
-    super(Action::MOVE, MVector.new(-0.001,0,0))
+    super(Action::MOVE, MVector.new(-0.01,0,0))
   end
 end
 class MoveEastAction < Action
   def initialize
-    super(Action::MOVE, MVector.new(0,0.001,0))
+    super(Action::MOVE, MVector.new(0,0.01,0))
   end
 end
 class MoveWestAction < Action
   def initialize
-    super(Action::MOVE, MVector.new(0,-0.001,0))
+    super(Action::MOVE, MVector.new(0,-0.01,0))
   end
 end
 

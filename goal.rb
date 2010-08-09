@@ -1,5 +1,10 @@
+
+
+
+# is not used....
+
 class Goal
-  
+
   SEARCH_FOOD = 1
   SURVIVE     = 2
 
@@ -7,6 +12,6 @@ class Goal
     @user_goal = goal
     @next = n
   end
-    
+
 end
 

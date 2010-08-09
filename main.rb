@@ -12,10 +12,14 @@ class SpaceWorld < World
   def initialize
     super
     @agents   = []
-    a         = SearchFoodAgent.new
-    @agents   << a
-    add_object(a)
-    add_object(Resource.new(2,2,0))
+    1.upto(10) {
+      a         = SearchFoodAgent.new(MVector.new(rand(10)-5,rand(10)-5,0))
+      @agents   << a
+      add_object(a)
+      }
+    1.upto(10) {
+      add_object(Resource.new(rand(5)-2,rand(5)-2,0))
+      }
     @console.push("hello, nothing much for now")
   end
 
@@ -78,19 +82,8 @@ class SpaceWorld < World
       CONFIG[:draw][:menu] = nil if rv == :quit
       return
     end
-    @controls.action(k.chr,1)
     case k
       when 13 # Enter
-        @editing = @editing==true ? nil : true
-      when 8 # Backspace
-        @traces.clear
-        @dsl.reload
-      when 32 # space
-        CONFIG[:draw][:constraints] = CONFIG[:draw][:constraints]? nil : true
-      when '1'[0]
-        CONFIG[:cam][:follow] = CONFIG[:cam][:follow]? nil : true
-      when '2'[0]
-        CONFIG[:draw][:forces] = CONFIG[:draw][:forces]? nil : true
     end
     super
   end
