@@ -2,6 +2,7 @@
 require 'config'
 require 'world'
 require 'agent'
+require 'resource'
 require 'openglmenu'
 
 class SpaceWorld < World
@@ -10,11 +11,12 @@ class SpaceWorld < World
 
   def initialize
     super
-    puts @objects
     @agents   = []
-    a         = Agent.new
+    a         = SearchFoodAgent.new
     @agents   << a
     add_object(a)
+    add_object(Resource.new(2,2,0))
+    @console.push("hello, nothing much for now")
   end
 
   def draw
@@ -29,23 +31,22 @@ class SpaceWorld < World
     GL.Rotate(@cam.rot.z, 0.0, 0.0, 1.0)
     GL.Translate(-@cam.pos.x, -@cam.pos.y, -@cam.pos.z)
 
-    # ground
-    GL.CallList(@ground_list)
-
-    # TODO: main drawing
-    @agents.each {|a|
-      a.draw
+    # give inputs to agents and make them think
+    @agents.each { |a|
+      a.inputs = @objects
+      a.do_action
       }
 
+    # main drawing
+    # ground
+    GL.CallList(@ground_list)
+    draw_objects
     draw_console
-    enable_2D
-    @menu.draw if CONFIG[:draw][:menu]
-    disable_2D
-
-
-    # board
-    #draw_board
-
+    if CONFIG[:draw][:menu]
+      enable_2D
+      @menu.draw
+      disable_2D
+    end
 
     # END
     GLUT.SwapBuffers()

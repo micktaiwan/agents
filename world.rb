@@ -7,14 +7,14 @@ class World
 
 
   def initialize(fov = 90.0)
-    @fov    = fov
-    @angle  = 0.0
-    @frames = 0
-    @t0     = 0
-    @cam    = Camera.new
-    @fps = 0
-    @console = Console.new
-    @objects = []
+    @fov      = fov
+    @angle    = 0.0
+    @frames   = 0
+    @t0       = 0
+    @cam      = Camera.new
+    @fps      = 0
+    @console  = Console.new
+    @objects  = []
 
     GLUT.Init()
     init()
@@ -31,6 +31,9 @@ class World
     GLUT.MainLoop()
   end
 
+  def draw_objects
+    @objects.each {|o| o.draw }
+  end
 
   def add_object(obj)
     @objects << obj
