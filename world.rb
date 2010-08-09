@@ -5,11 +5,34 @@ require 'console'
 
 class World
 
-  def initialize
+
+  def initialize(fov = 90.0)
+    @fov    = fov
+    @angle  = 0.0
+    @frames = 0
+    @t0     = 0
+    @cam    = Camera.new
+    @fps = 0
+    @console = Console.new
     @objects = []
+
+    GLUT.Init()
+    init()
+    GLUT.DisplayFunc(method(:draw).to_proc)
+    GLUT.ReshapeFunc(method(:reshape).to_proc)
+    GLUT.KeyboardFunc(method(:key).to_proc)
+    GLUT.SpecialFunc(method(:special).to_proc)
+    GLUT.VisibilityFunc(method(:visible).to_proc)
+    GLUT.MouseFunc(method(:mouse).to_proc)
+    GLUT.MotionFunc(method(:motion).to_proc)
   end
-  
-  def addçobject(o)
+
+  def start
+    GLUT.MainLoop()
+  end
+
+
+  def add_object(obj)
     @objects << obj
   end
 
@@ -20,11 +43,11 @@ class World
   def init
     raise 'override init'
   end
-  
+
   def idle
     GLUT.PostRedisplay()
   end
-    
+
   def key(k, x, y)
     case k
       when 27 # Escape
@@ -63,12 +86,12 @@ class World
     GL.PushMatrix()
     GL.LoadIdentity()
   end
-  
+
   def disable_2D
     GL.MatrixMode(GL_PROJECTION)
-    GL.PopMatrix()   
+    GL.PopMatrix()
     GL.MatrixMode(GL_MODELVIEW)
-    GL.PopMatrix()	
+    GL.PopMatrix()
   end
 
   def visible(vis)
@@ -79,7 +102,7 @@ class World
     @mouse = state
     @x0, @y0 = x, y
   end
-  
+
   def motion(x, y)
     if @mouse == GLUT::DOWN
       nx = -(@x0 - x).to_f * CONFIG[:mouse][:speed_factor]
@@ -88,11 +111,11 @@ class World
     end
     @x0, @y0 = x, y
   end
-  
+
   def v(x,y,z)
     GL::Vertex3d(x,y,z)
   end
-  
+
   def draw_grid
     GL::Begin(GL::LINES)
       GL::Color(0.3,0.3,0.3, 1)
@@ -119,32 +142,9 @@ class World
     GL::Color(0, 0, 1, 1)
     v(0,0,0)
     v(0,0,1)
-    GL::End()  
+    GL::End()
     GL::LineWidth(1)
   end
 
-  def initialize(fov = 90.0)
-    @fov    = fov
-    @angle  = 0.0
-    @frames = 0
-    @t0     = 0
-    @cam    = Camera.new
-    @fps = 0
-    @console = Console.new
-
-    GLUT.Init()
-    init()
-    GLUT.DisplayFunc(method(:draw).to_proc)
-    GLUT.ReshapeFunc(method(:reshape).to_proc)
-    GLUT.KeyboardFunc(method(:key).to_proc)
-    GLUT.SpecialFunc(method(:special).to_proc)
-    GLUT.VisibilityFunc(method(:visible).to_proc)
-    GLUT.MouseFunc(method(:mouse).to_proc)
-    GLUT.MotionFunc(method(:motion).to_proc)
-  end
-
-  def start
-    GLUT.MainLoop()
-  end
-
 end
+

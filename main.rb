@@ -6,13 +6,14 @@ require 'openglmenu'
 
 class SpaceWorld < World
 
-  attr_accessor :cam, :controls, :console
+  attr_accessor :cam, :console
 
   def initialize
     super
+    puts @objects
     @agents   = []
-    a = Agent.new
-    @agents << a
+    a         = Agent.new
+    @agents   << a
     add_object(a)
   end
 
@@ -171,4 +172,6 @@ private
 
 end
 
-SpaceWorld.new.start
+s = SpaceWorld.new
+s.start
+
