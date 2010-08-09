@@ -43,9 +43,7 @@ class Agent
   # fonction of @inputs and @goals
   def evaluate_performance(projected_self)
     obj = @inputs[1]
-    rv = -(obj.pos - projected_self.pos).length
-    puts rv
-    rv
+    -(obj.pos - projected_self.pos).length
   end
 
   def +(action)
