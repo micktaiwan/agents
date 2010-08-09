@@ -1,0 +1,19 @@
+AGENTS
+======
+
+First import: August, 9th 2010
+
+What:
+Experiment with intelligent agents in a 3D space
+
+Doc:
+(not public yet)
+https://docs.google.com/document/edit?id=1txSu9s8HHOkDdBh63hdiIFlWC2IdzI30MAjMn-zt6i0&hl=en#
+
+Prerequisites:
+sudo apt-get install ruby
+sudo apt-get install libopengl-ruby
+
+Launch:
+ruby main.rb
+
