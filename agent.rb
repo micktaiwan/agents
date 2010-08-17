@@ -58,27 +58,15 @@ private
       note            = evaluate_performance(projected_self)
       results << [a,note, projected_self]
       }
-    results = results.sort_by { |r| -r[1]}
+    results = results.sort_by { |r| r[1]} # the smaller, the better
     results[0][0] # return the best action
   end
 
   # fonction of @inputs and @goals
   def evaluate_performance(projected_self)
-    points = 0
-
-    # SEARCH_FOOD
-    f = goal_factor(Agent::SEARCH_FOOD)
-    food = select_nearest_food(projected_self)
-    points += -(food.pos - projected_self.pos).length * f
-
-    # SURVIVE
-    f = goal_factor(Agent::SURVIVE)
-    other_agents = @inputs.select{ |i| i.respond_to?(:do_action)}
-    other_agents.each { |a|
-      points += Math.sqrt(Util.distance(projected_self,a)*f)/2
+    return @goals.inject(0) { |sum, g|
+      sum += g.evaluate(projected_self)
       }
-
-    points
   end
 
   def goal_factor(g)
@@ -88,14 +76,6 @@ private
     return s - pos
   end
 
-  def select_nearest_food(projected_self)
-    nearest = nil
-    @inputs.each{ |o|
-      next if o.respond_to?(:do_action)
-      nearest = o if not nearest or Util.nearest(projected_self, o, nearest)
-      }
-    nearest
-  end
 
   def opengl_list
     m_r = 0.1
@@ -151,8 +131,8 @@ end
 class SearchFoodAgent < Agent
   def initialize(pos=nil)
     super(pos)
-    @goals << Agent::SURVIVE
-    @goals << Agent::SEARCH_FOOD
+    @goals << SearchFoodGoal.new
+    @goals << SurviveGoal.new
     @actions << MoveNorthAction.new
     @actions << MoveSouthAction.new
     @actions << MoveEastAction.new

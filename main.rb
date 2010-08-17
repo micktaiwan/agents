@@ -13,7 +13,7 @@ class SpaceWorld < World
     super
     @agents   = []
     1.upto(10) {
-      a         = SearchFoodAgent.new(MVector.new(rand(10)-5,rand(10)-5,0))
+      a         = SearchFoodAgent.new(MVector.new(rand(20)-10,rand(20)-10,0))
       @agents   << a
       add_object(a)
       }

@@ -5,8 +5,8 @@ class Camera
   attr_accessor :pos, :view, :rot
   
   def initialize
-    @pos  = MVector.new(1,-4,2)
-    @rot  = MVector.new(-80,0,-10)
+    @pos  = MVector.new(2,-10,8)
+    @rot  = MVector.new(-50,-2,-10)
     @follow = {:obj=>nil}
   end
   
